@@ -1,0 +1,1 @@
+export const namerules = [(v: any) => !!v || 'Item is required']

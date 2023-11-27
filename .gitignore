@@ -1,0 +1,7 @@
+/node_modules
+/oldfiles
+/.env
+/build
+/client/.vscode
+/client/dist
+/Todo.txt

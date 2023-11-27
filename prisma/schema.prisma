@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+enum Role {
+  STAFF
+  ADMIN
+}
+
+enum ChatType {
+  GROUP
+  PRIVATE
+}
+
+model User {
+  id       String    @id @default(uuid())
+  name     String?
+  email    String    @unique
+  password String?
+  phone    String?
+  image    String?
+  role     Role      @default(STAFF)
+  chats    Chat[]
+  messages Message[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model RoomType {
+  id      Int       @id @default(autoincrement())
+  name    String?
+  room    Room[]
+  booking Booking[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Room {
+  id      Int      @id @default(autoincrement())
+  name    String?
+  price   Int      @default(0)
+  booked  Boolean  @default(false)
+  type    RoomType @relation(fields: [type_id], references: [id])
+  type_id Int
+
+  booking Booking[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Booking {
+  id String @id @default(uuid())
+
+  room    Room @relation(fields: [room_id], references: [id])
+  room_id Int
+
+  room_type    RoomType @relation(fields: [room_type_id], references: [id])
+  room_type_id Int
+
+  check_in  String
+  check_out String
+
+  total_price Int
+
+  client  String
+  phone   String
+  email   String
+  address String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Chat {
+  id       String    @id @default(uuid())
+  name     String?
+  type     ChatType  @default(PRIVATE)
+  users    User[]
+  messages Message[]
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Message {
+  id   Int     @id @default(autoincrement())
+  text String?
+
+  type     String?
+  file     String?
+  fileName String?
+  fileSize String?
+
+  chat    Chat   @relation(fields: [chat_id], references: [id])
+  chat_id String
+
+  sender    User   @relation(fields: [sender_id], references: [id])
+  sender_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}

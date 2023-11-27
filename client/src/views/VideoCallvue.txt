@@ -1,0 +1,103 @@
+<template>
+  <v-container fluid>
+    <v-card flat>
+      <v-card-title>Video Call App: {{CHAT_ROOM_ID}}</v-card-title>
+      <v-card-text>
+        <v-row>
+          <v-col cols="6" v-for="video, i in videos" :key="video.id">
+            <v-avatar rounded size="100%">
+              <video :srcObject="video" height="200" autoplay></video>
+            </v-avatar>
+            <!-- {{video.id}} -->
+          </v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-text class="d-flex justify-center align-center">
+        <v-btn flat color="primary" size="45">
+          <v-icon size="25">mdi-microphone</v-icon>
+        </v-btn>
+        <v-btn flat color="primary" size="45">
+          <v-icon>mdi-monitor-screenshot</v-icon>
+        </v-btn>
+      </v-card-text>
+    </v-card>
+  </v-container>
+</template>
+
+<script setup lang="ts">
+import { onMounted, ref, onBeforeUnmount } from 'vue'
+import { useRoute } from 'vue-router'
+import { Peer } from 'peerjs'
+import { useStore } from 'vuex'
+import { joinvideochat, userconnected, userdisconnect } from '../api/socket'
+
+const { getters } = useStore()
+const route = useRoute()
+
+const localeVideo = ref(null)
+const calling = ref(false)
+
+const peers = {}
+const videos = ref([])
+
+let CHAT_ROOM_ID = ''
+
+const createOrGetRoomId = () => {
+  if(route.query.id) CHAT_ROOM_ID = route.query.id
+  else {
+    const id = Math.random().toString(36).substring(2, 8)
+    const newUrl = new URL(window.location.href)
+    newUrl.searchParams.set('id', id)
+    history.pushState({ path: newUrl.toString() }, '', newUrl.toString())
+    CHAT_ROOM_ID = id
+  }
+}
+
+createOrGetRoomId()
+
+let myPeer = new Peer(undefined, { 
+  path: '/myapp',
+  host: 'localhost',
+  port: 9000,
+  key: "peerjs"
+})
+
+userdisconnect((id) => {
+  if(peers[id]) peers[id].close()
+})
+
+onMounted(() => {
+  navigator.mediaDevices[localStorage.getItem("dashboard-theme")==="dark"?"getUserMedia":"getDisplayMedia"]({ video: true, audio: false }).then((stream) => {
+    calling.value = true
+    addVideoToStream(stream)
+
+    myPeer.on('call', call => {
+      call.answer(stream)
+      call.on('stream', userVideoStream => {
+        addVideoToStream(userVideoStream)
+      })
+    })
+
+    userconnected((user) => {
+      connectToNewUser(user, stream)
+    })
+  })
+})
+
+myPeer.on('open', id => {
+  joinvideochat(CHAT_ROOM_ID, id)
+})
+
+const connectToNewUser = (user, stream) => {
+  const call = myPeer.call(user, stream)
+  call.on('stream', userVideoStream => addVideoToStream(userVideoStream) )
+  call.on('close', () => {
+    videos.value = videos.value.filter(v => v.id !== stream.id)
+  })
+  peers[user] = call
+}
+
+function addVideoToStream(stream) {
+  videos.value.push(stream)
+}
+</script>
