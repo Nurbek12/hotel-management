@@ -1,1 +1,0 @@
-import{a as s}from"./index-_h905p1k.js";const r=e=>s.get(`/api/user?${e}`),u=e=>s.post("/api/user/create",e),p=(e,t)=>s.put(`/api/user/${e}`,t),o=e=>s.delete(`/api/user/${e}`);export{u as c,o as d,r as g,p as u};
