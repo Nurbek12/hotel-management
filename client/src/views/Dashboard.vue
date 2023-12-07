@@ -208,5 +208,5 @@ const convertCurrency = (value: any) => {
 init()
 getCurrency()
 
-updateTimeClocks()
+// updateTimeClocks()
 </script>
