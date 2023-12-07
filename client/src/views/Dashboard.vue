@@ -97,7 +97,7 @@ import { DoughnutChart, BarChart } from 'vue-chart-3'
 import { Chart, registerables } from "chart.js"
 import { get_info } from '../api/dashboard'
 import { get_currency } from '../api/others'
-import { currencys, flags } from '../utils/items'
+import { currencys } from '../utils/items'
 
 Chart.register(...registerables);
 
