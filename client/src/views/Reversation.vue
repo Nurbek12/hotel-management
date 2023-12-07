@@ -34,42 +34,42 @@
                             </template>
                             <template #item.room="{ item }">
                                 <td :data-label="t('rooms.room_no')">
-                                    {{ item.raw.room?.name }}
+                                    {{ item.room?.name }}
                                 </td>
                             </template>
                             <template #item.phone="{ item }">
                                 <td :data-label="t('booking.phone')">
-                                    {{ item.raw.phone }}
+                                    {{ item.phone }}
                                 </td>
                             </template>
                             <template #item.email="{ item }">
                                 <td :data-label="t('booking.email')">
-                                    {{ item.raw.email }}
+                                    {{ item.email }}
                                 </td>
                             </template>
                             <template #item.address="{ item }">
                                 <td :data-label="t('booking.address')">
-                                    {{ item.raw.address }}
+                                    {{ item.address }}
                                 </td>
                             </template>
                             <template #item.total_price="{ item }">
                                 <td :data-label="t('booking.total_amount')">
-                                    {{ item.raw.total_price }}
+                                    {{ item.total_price }}
                                 </td>
                             </template>
                             <template #item.room_type="{ item }">
                                 <td :data-label="t('rooms.room_type')">
-                                    {{ item.raw.room_type?.name }}
+                                    {{ item.room_type?.name }}
                                 </td>
                             </template>
                             <template #item.check_in="{ item }">
                                 <td :data-label="t('booking.check_in')">
-                                    {{ item.raw.check_in }}
+                                    {{ item.check_in }}
                                 </td>
                             </template>
                             <template #item.check_out="{ item }">
                                 <td :data-label="t('booking.check_out')">
-                                    {{ item.raw.check_out }}
+                                    {{ item.check_out }}
                                 </td>
                             </template>
                         </v-data-table-server>
