@@ -13,7 +13,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12" sm="6" md="3" v-for="clock, i in clocks" :key="i">
+      <!-- <v-col cols="12" sm="6" md="3" v-for="clock, i in clocks" :key="i">
         <v-card class="mx-auto" style="overflow: unset;" flat>
           <v-sheet border style="position: absolute; top: -10px; left: 10px" height="75" width="100" 
             rounded elevation="0" class="d-flex align-center justify-center">
@@ -26,7 +26,7 @@
             <p class="text-h4 text--primary">{{ times['time'+(i+1)] }}</p>
           </v-card-text>
         </v-card>
-      </v-col>
+      </v-col> -->
       <v-col cols="12" sm="6" md="4">
         <v-card flat>
           <v-card-title>{{ t("dashboard.chart_title_1") }}</v-card-title>
