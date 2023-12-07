@@ -63,16 +63,16 @@
                 <v-table height="290" class="oveflow-auto" density="comfortable">
                   <thead>
                     <tr>
-                      <th class="text-left text-caption">{{ t("dashboard.flag") }}</th>
+                      <!-- <th class="text-left text-caption">{{ t("dashboard.flag") }}</th> -->
                       <th class="text-left text-caption">{{ t("dashboard.currency") }}</th>
                       <th class="text-right text-caption">{{ t("dashboard.rate") }}</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="item, i in currencys" :key="i">
-                      <td>
+                      <!-- <td>
                         <v-img :src="flags[item]" width="40" height="30" cover></v-img>
-                      </td>
+                      </td> -->
                       <td class="text-body-2">{{ item }}</td>
                       <td class="d-flex align-center justify-end">
                         {{ convertCurrency(currencyData[item]) }}
